@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import axios from "axios";
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -48,6 +49,31 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function SignUp() {
+  const [stateName, setName] = useState({ username: ""});
+  const [statePassword, setPassword] = useState({ password: ""});
+  const name = stateName.username;
+  const pw = statePassword.password;
+
+  function usernameHandler(inputName) {
+    setName({username: inputName});
+  }
+
+  function passwordHandler(inputPassword) {
+    setPassword({password: inputPassword})
+  }
+
+  function postDataToServer() {
+
+    axios.post('http://localhost:8080/signup', {
+      username: name,
+      password: pw
+    }, {
+      headers: { "Content-Type": "application-json"}
+    })
+    .then(res => console.log(res))
+    .catch(err => console.log(err))
+  };
+
   const classes = useStyles();
 
   return (
@@ -58,9 +84,9 @@ export default function SignUp() {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Sign up
+          Registrieren
         </Typography>
-        <form className={classes.form} noValidate>
+        <form className={classes.form} noValidate onSubmit={() => postDataToServer()}>
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <TextField
@@ -68,9 +94,10 @@ export default function SignUp() {
                 required
                 fullWidth
                 id="email"
-                label="Email Address"
+                label="Email"
                 name="email"
                 autoComplete="email"
+                onChange={inputName => usernameHandler(inputName.target.value)}
               />
             </Grid>
             <Grid item xs={12}>
@@ -79,26 +106,28 @@ export default function SignUp() {
                 required
                 fullWidth
                 name="password"
-                label="Password"
+                label="Passwort"
                 type="password"
                 id="password"
                 autoComplete="current-password"
+                onChange={inputPassword => passwordHandler(inputPassword.target.value)}
               />
             </Grid>
           </Grid>
           <Button
-            type="submit"
+            type="button"
             fullWidth
             variant="contained"
             color="primary"
             className={classes.submit}
+            onClick={() => postDataToServer()}
           >
-            Sign Up
+            Registrieren
           </Button>
           <Grid container justify="flex-end">
             <Grid item>
               <UrlLink to="/sign-in/" style={{textDecoration: "none"}}>
-                Already have an account? Sign in
+                Hast du bereits einen Account? Einloggen
               </UrlLink>
             </Grid>
           </Grid>
