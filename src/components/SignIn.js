@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import axios from "axios";
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -48,6 +49,31 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function SignIn() {
+  const [stateName, setName] = useState({username: ""});
+  const [statePassword, setPassword] = useState({password: ""});
+  const name = stateName.username;
+  const pw = statePassword.password;
+
+  const usernameHandler = (inputName) => {
+    setName({username: inputName});
+  }
+
+  const passwordHandler = (inputPassword) => {
+    setPassword({password: inputPassword});
+  }
+
+  function postDataToServer() {
+
+    axios.post('http://localhost:8080/login', {
+      username: name,
+      password: pw
+    }, {
+      headers: { "Content-Type": "application/json"}
+    })
+    .then(res => console.log(res.data))
+    .catch(err => console.log(err))
+  };
+
   const classes = useStyles();
 
   return (
@@ -71,6 +97,7 @@ export default function SignIn() {
             name="email"
             autoComplete="email"
             autoFocus
+            onChange={inputName => usernameHandler(inputName.target.value)}
           />
           <TextField
             variant="outlined"
@@ -82,17 +109,19 @@ export default function SignIn() {
             type="password"
             id="password"
             autoComplete="current-password"
+            onChange={inputPassword => passwordHandler(inputPassword.target.value)}
           />
           <FormControlLabel
             control={<Checkbox value="remember" color="primary" />}
             label="Logindaten speichern"
           />
           <Button
-            type="submit"
+            type="button"
             fullWidth
             variant="contained"
             color="primary"
             className={classes.submit}
+            onClick={() => postDataToServer()}
           >
             Einloggen
           </Button>

@@ -68,7 +68,7 @@ export default function SignUp() {
       username: name,
       password: pw
     }, {
-      headers: { "Content-Type": "application-json"}
+      headers: { "Content-Type": "application/json"}
     })
     .then(res => console.log(res))
     .catch(err => console.log(err))
