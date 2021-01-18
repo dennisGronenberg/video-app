@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axios from "axios";
+import axios from "../utilities/customConfigAxios";
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -64,11 +64,9 @@ export default function SignUp() {
 
   function postDataToServer() {
 
-    axios.post('http://localhost:8080/signup', {
+    axios.post('/signup', {
       username: name,
       password: pw
-    }, {
-      headers: { "Content-Type": "application/json"}
     })
     .then(res => console.log(res))
     .catch(err => console.log(err))

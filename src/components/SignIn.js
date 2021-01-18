@@ -70,9 +70,13 @@ export default function SignIn() {
     }, {
       headers: { "Content-Type": "application/json"}
     })
-    .then(res => console.log(res.data))
+    .then(res => storeDataInLocalStorage(res.data.token))
     .catch(err => console.log(err))
   };
+
+  const storeDataInLocalStorage = (data) => {
+    localStorage.setItem("token", data)
+  }
 
   const classes = useStyles();
 
