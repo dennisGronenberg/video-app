@@ -9,7 +9,6 @@ import {
 import { Home } from './components/Home'
 import SignUp from "./components/SignUp"
 import SignIn from "./components/SignIn"
-import Album from "./components/Membersite";
 
 export const Routes = () => {
   return (
@@ -23,9 +22,6 @@ export const Routes = () => {
           </Route>
           <Route path="/sign-in/">
             <SignIn />
-          </Route>
-          <Route path="/member-site/">
-            <Album />
           </Route>
         </Switch>
     </Router>
